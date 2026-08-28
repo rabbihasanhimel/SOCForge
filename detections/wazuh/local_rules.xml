@@ -1,0 +1,80 @@
+<!--
+  SOCForge Custom Detection Engineering Ruleset
+  Location on Wazuh Manager: /var/ossec/etc/rules/local_rules.xml
+  Tested on: Wazuh Manager v4.14.7 / Microsoft Sysmon v15.21
+-->
+
+<group name="local,syslog,sshd,socforge,">
+
+  <!-- SOCForge Detection #1: PowerShell Execution (T1059.001) -->
+  <rule id="100100" level="7">
+    <field name="win.system.eventID">^1$</field>
+    <field name="win.eventdata.image">\\powershell\.exe$</field>
+    <description>SOCForge: PowerShell process execution detected</description>
+    <mitre>
+      <id>T1059.001</id>
+    </mitre>
+    <group>socforge,powershell,process_creation,</group>
+  </rule>
+
+  <!-- SOCForge Detection #2: Encoded PowerShell (T1059.001 / T1027) -->
+  <rule id="100101" level="10">
+    <if_sid>100100</if_sid>
+    <field name="win.eventdata.commandLine">-EncodedCommand|-encodedcommand|-enc |-Enc </field>
+    <description>SOCForge: Suspicious encoded PowerShell command detected</description>
+    <mitre>
+      <id>T1059.001</id>
+      <id>T1027</id>
+    </mitre>
+    <group>socforge,powershell,encoded_command,process_creation,</group>
+  </rule>
+
+  <!-- SOCForge Detection #3: Command Shell Spawned by PowerShell (T1059.003) -->
+  <rule id="100102" level="8">
+    <field name="win.system.eventID">^1$</field>
+    <field name="win.eventdata.parentImage">\\powershell\.exe$|\\powershell\.EXE$|\\PowerShell\.EXE$</field>
+    <field name="win.eventdata.image">\\cmd\.exe$|\\cmd\.EXE$</field>
+    <description>SOCForge: Command Shell spawned by PowerShell detected</description>
+    <mitre>
+      <id>T1059.003</id>
+    </mitre>
+    <group>socforge,cmd,windows_command_shell,process_creation,</group>
+  </rule>
+
+  <!-- SOCForge Detection #4: Suspicious Outbound Network Connection (T1071.001) -->
+  <rule id="100103" level="9">
+    <field name="win.system.eventID">^3$</field>
+    <field name="win.eventdata.destinationIp">^192\.168\.56\.104$|^192\.168\.56\.101$</field>
+    <description>SOCForge: Outbound network connection to monitored lab host detected</description>
+    <mitre>
+      <id>T1071.001</id>
+    </mitre>
+    <group>socforge,network_connection,outbound_connection,</group>
+  </rule>
+
+  <!-- SOCForge Detection #5: Persistence via Scheduled Task Creation (T1053.005) -->
+  <rule id="100104" level="10">
+    <field name="win.system.eventID">^1$</field>
+    <field name="win.eventdata.image">\\schtasks\.exe$|\\schtasks\.EXE$</field>
+    <field name="win.eventdata.commandLine">/create|/Create|-create|-Create</field>
+    <description>SOCForge: Persistence via Scheduled Task creation detected</description>
+    <mitre>
+      <id>T1053.005</id>
+    </mitre>
+    <group>socforge,persistence,scheduled_task,process_creation,</group>
+  </rule>
+
+  <!-- SOCForge Detection #6: Local Account Creation / Privilege Escalation (T1136.001 / T1098) -->
+  <rule id="100105" level="10">
+    <field name="win.system.eventID">^1$</field>
+    <field name="win.eventdata.image">\\net\.exe$|\\net\.EXE$|\\net1\.exe$|\\net1\.EXE$</field>
+    <field name="win.eventdata.commandLine">/add|/Add|-add|-Add</field>
+    <description>SOCForge: Local account creation or privilege escalation detected via net.exe</description>
+    <mitre>
+      <id>T1136.001</id>
+      <id>T1098</id>
+    </mitre>
+    <group>socforge,privilege_escalation,persistence,account_manipulation,process_creation,</group>
+  </rule>
+
+</group>

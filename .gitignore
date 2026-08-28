@@ -1,0 +1,30 @@
+# Operating System files
+.DS_Store
+Thumbs.db
+desktop.ini
+*.tmp
+
+# Virtual Machine & Disk Images
+*.iso
+*.vdi
+*.vmdk
+*.vbox
+*.vbox-prev
+*.ova
+*.ovf
+VMs/
+ISO/
+
+# Large evidence / raw dumps
+*.docx
+*.pcap
+*.evtx
+*.csv
+
+# Sensitive or Local Environment
+.env
+*.key
+*.pem
+.gemini/
+.idea/
+.vscode/
