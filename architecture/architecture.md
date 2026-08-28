@@ -6,9 +6,9 @@ This document details the virtual security operations center (SOC) architecture,
 
 ## 1. Network Topology Diagram
 
-```text
 
-<img width="802" height="546" alt="image" src="https://github.com/user-attachments/assets/1eb464d4-8ff2-45f3-80a5-409b596330a8" />
+
+<img width="600" height="400" alt="image" src="https://github.com/user-attachments/assets/1eb464d4-8ff2-45f3-80a5-409b596330a8" />
 
 ┌───────────────────────────────────────────────────────────────────────────────────┐
 │                           SOCFORGE LAB ARCHITECTURE                               │
