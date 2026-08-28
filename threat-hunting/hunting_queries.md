@@ -5,21 +5,8 @@ This guide provides tested forensic threat hunting queries designed to detect ad
 ---
 
 ## Threat Hunting Methodology
+<img width="800" height="400" alt="image" src="https://github.com/user-attachments/assets/4a8f5eb3-4530-4cc7-ab44-d5cc7cef73b0" />
 
-```
-┌─────────────────────────┐     ┌─────────────────────────┐     ┌─────────────────────────┐
-│       HYPOTHESIS        │ ──► │     DATA EXTRACTION     │ ──► │  FORENSIC CORRELATION   │
-│  Adversary abused       │     │  Query Sysmon EID 1, 3, │     │  Trace ParentProcessId, │
-│  LOLBins & PowerShell   │     │  7, 11 from archives    │     │  ProcessGUID & hashes   │
-└─────────────────────────┘     └─────────────────────────┘     └─────────────────────────┘
-                                                                             │
-                                                                             ▼
-┌─────────────────────────┐     ┌─────────────────────────┐     ┌─────────────────────────┐
-│     INCIDENT REPORT     │ ◄── │  CONTAINMENT / REMEDY   │ ◄── │      IOC DISCOVERY      │
-│  Full forensic timeline │     │  Eradicate tasks, users │     │  Extract IPs, hashes,   │
-│  & portfolio case study │     │  & temporary artifacts  │     │  payload locations      │
-└─────────────────────────┘     └─────────────────────────┘     └─────────────────────────┘
-```
 
 ---
 
