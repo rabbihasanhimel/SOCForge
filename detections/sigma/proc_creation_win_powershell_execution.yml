@@ -1,0 +1,23 @@
+﻿title: PowerShell Process Execution
+id: 7b84f29a-1001-4c12-98ab-socforge100100
+status: test
+description: Detects the execution of Windows PowerShell, capturing process creation telemetry for baseline activity and scripting operations.
+references:
+  - https://attack.mitre.org/techniques/T1059/001/
+author: SOCForge Detection Engineering Team
+date: 2026-08-28
+tags:
+  - attack.execution
+  - attack.t1059.001
+logsource:
+  category: process_creation
+  product: windows
+detection:
+  selection:
+    Image|endswith:
+      - '\powershell.exe'
+      - '\pwsh.exe'
+  condition: selection
+falsepositives:
+  - Legitimate administrative scripting and automation tasks
+level: medium

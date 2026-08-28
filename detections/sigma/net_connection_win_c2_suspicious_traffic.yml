@@ -1,0 +1,23 @@
+﻿title: Suspicious Outbound Network Connection to C2 Lab Host
+id: c9247d81-1001-46bc-a567-socforge100103
+status: test
+description: Detects outbound network connections initiated to adversary staging infrastructure or C2 IP addresses.
+references:
+  - https://attack.mitre.org/techniques/T1071/001/
+author: SOCForge Detection Engineering Team
+date: 2026-08-28
+tags:
+  - attack.command_and_control
+  - attack.t1071.001
+logsource:
+  category: network_connection
+  product: windows
+detection:
+  selection:
+    DestinationIp:
+      - '192.168.56.101'
+      - '192.168.56.104'
+  condition: selection
+falsepositives:
+  - Legitimate internal management communication within the test lab subnet
+level: high
