@@ -54,8 +54,9 @@ The custom **SOCForge Security Operations Dashboard** provides single-pane-of-gl
 
 <img width="1277" height="552" alt="image" src="https://github.com/user-attachments/assets/f94b0436-b28e-46bc-bebf-3f86b4e78017" />
 
-```
 *See [`architecture/architecture.md`](architecture/architecture.md) for full topology details.*
+
+```
 
 ---
 
