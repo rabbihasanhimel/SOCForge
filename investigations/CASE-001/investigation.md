@@ -33,31 +33,8 @@ All stages of the intrusion and subsequent remediation were captured through end
 
 ## 2. Lab Architecture & Telemetry Pipeline
 
-```text
-┌───────────────────────────────────────────────────────────────────────────────────┐
-│                           SOCFORGE LAB ARCHITECTURE                               │
-├───────────────────────────────────────────────────────────────────────────────────┤
-│                                                                                   │
-│    🐉 ATTACKER (Kali Linux)                                                       │
-│       IP: 192.168.56.101                                                          │
-│       Services: Python HTTP Stager (Port 8080), Nmap Reconnaissance               │
-│                                                                                   │
-│                             │  [Host-Only Subnet: 192.168.56.0/24]                │
-│                             ▼                                                     │
-│    🪟 TARGET ENDPOINT (Windows 11)                                                │
-│       Hostname: OniNaruto | IP: 192.168.56.105                                    │
-│       Sensors: Microsoft Sysmon v15.21 (Schema 4.90) + Wazuh Agent v4.14.7        │
-│       Telemetry: ProcessCreate (1), NetConnect (3), ImageLoad (7), FileCreate (11)│
-│                                                                                   │
-│                             │  [Wazuh Agent Protocol / Port 1514]                 │
-│                             ▼                                                     │
-│    🛡️ SIEM & ANALYSIS (Ubuntu Server)                                             │
-│       Hostname: socforgewazuh | IP: 192.168.56.104                                │
-│       Stack: Wazuh Manager, OpenSearch, Wazuh Dashboard                           │
-│       Engine: Analysisd Rule Engine + Custom SOCForge Detection Rules             │
-│                                                                                   │
-└───────────────────────────────────────────────────────────────────────────────────┘
-```
+
+<img width="818" height="371" alt="image" src="https://github.com/user-attachments/assets/2758ea9e-449e-4256-975d-7b43bd150d25" />
 
 ---
 
@@ -65,16 +42,9 @@ All stages of the intrusion and subsequent remediation were captured through end
 
 The attack chain mapped comprehensively across **6 Tactics** and **10 Techniques**:
 
-```text
-┌──────────────┐     ┌──────────────┐     ┌──────────────┐     ┌──────────────┐     ┌──────────────┐     ┌──────────────┐
-│    RECON     │ ──► │  C2 INGRESS  │ ──► │  EXECUTION   │ ──► │DISCOVERY / EV│ ──► │ PERSISTENCE  │ ──► │  PRIV ESC    │
-├──────────────┤     ├──────────────┤     ├──────────────┤     ├──────────────┤     ├──────────────┤     ├──────────────┤
-│    T1046     │     │  T1071.001   │     │  T1059.001   │     │    T1027     │     │  T1053.005   │     │  T1136.001   │
-│ Network Port │     │ Web Protocol │     │  PowerShell  │     │ Obfuscation  │     │Scheduled Task│     │Local Account │
-│   Scanning   │     │  T1105 Tool  │     │  T1059.003   │     │    T1087     │     │  T1098 Acct  │     │Modification  │
-│              │     │   Transfer   │     │ Command Line │     │   Account    │     │ Manipulation │     │              │
-└──────────────┘     └──────────────┘     └──────────────┘     └──────────────┘     └──────────────┘     └──────────────┘
-```
+<img width="819" height="175" alt="image" src="https://github.com/user-attachments/assets/6d61c294-e306-41d4-9098-aa844fcfd295" />
+
+
 
 | MITRE Tactic | Technique ID | Technique Name | Artifact / Command | Detection / Rule ID |
 |:---|:---|:---|:---|:---|
