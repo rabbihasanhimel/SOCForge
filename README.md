@@ -15,9 +15,7 @@
 
 It demonstrates the complete lifecycle of modern security operations: from external adversary reconnaissance and HTTP C2 ingress staging, through privilege escalation and persistence, to real-time SIEM detection rule authoring, hypothesis-driven threat hunting, and verified forensic eradication.
 
-```text
 
-```
 <img width="1276" height="378" alt="image" src="https://github.com/user-attachments/assets/43593d01-48a5-4546-be5d-2488754104a6" />
 
 ---
