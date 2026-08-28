@@ -268,6 +268,8 @@ Six custom detection rules were authored, unit-tested with `wazuh-logtest`, and 
 
 ---
 
+
+
 ## 8. Eradication & Containment Evidence
 
 Following the attack simulation, incident response procedures were executed to contain and eradicate all adversary artifacts. **All cleanup actions were captured by Sysmon and logged in Wazuh `archives.json`**, providing forensic proof of successful remediation.
@@ -284,6 +286,9 @@ The malicious persistence mechanism was removed using `schtasks.exe /delete`:
 | `2026-08-26 20:17:12.782` | **5** (Process Terminate) | `schtasks.exe` (PID 7016) terminated | Successful cleanup confirmed |
 
 **SHA256 (schtasks.exe):** `DDDE64F0F55751763C1BCD53DE9CDFFC0D725D45A8476464A2A0422661813004`
+
+
+<img width="1185" height="605" alt="image" src="https://github.com/user-attachments/assets/42f4e0cb-9855-4430-a61a-ad69e41f65be" />
 
 ### 8.2 Backdoor Account Deletion (`socforge_backdoor`)
 
@@ -308,6 +313,7 @@ The unauthorized administrator account was removed using `net.exe user /delete`:
    └── [PID: 6980] net.exe user socforge_backdoor /delete
           └── [PID: 6336] net1.exe user socforge_backdoor /delete ✅
 ```
+<img width="1164" height="601" alt="image" src="https://github.com/user-attachments/assets/a7aadfa3-09d6-4e70-8436-c5bb79fd9201" />
 
 ### 8.4 Eradication Verification Summary
 
@@ -317,6 +323,10 @@ The unauthorized administrator account was removed using `net.exe user /delete`:
 | Backdoor User `socforge_backdoor` | `net user socforge_backdoor /delete` | Sysmon EID 1, 5, 11 + Rule 92039 | ✅ Removed |
 | Stager Payload `payload.ps1` | `Remove-Item C:\Windows\Temp\payload.ps1` | Manual cleanup | ✅ Removed |
 | C2 Infrastructure `192.168.56.101:8080` | Kali HTTP server terminated | Network isolation | ✅ Neutralized |
+
+
+<img width="1358" height="616" alt="image" src="https://github.com/user-attachments/assets/15808e12-3da1-471b-8b99-189e0bfef4e3" />
+
 
 > **Forensic Note:** All eradication commands were executed from the same PowerShell session (Parent PID 572) used during the attack simulation, and were fully captured in Wazuh `archives.json` with matching Sysmon telemetry — proving the complete incident lifecycle (attack → detection → response → eradication) was observed end-to-end by the SIEM.
 
@@ -384,6 +394,9 @@ sudo grep -Ei 'SOCForgePersistence|schtasks\.exe' \
 ```
 
 **Result:** Captured `schtasks /create`, `schtasks /delete`, `schtasks /query`, plus Sysmon EID 7 (`taskschd.dll` load), EID 12 (`DeleteKey` on `TaskCache\Tree\SOCForgePersistence`), and EID 5 (process termination).
+
+<img width="1363" height="610" alt="image" src="https://github.com/user-attachments/assets/2e8645f1-e123-45e0-b653-7e1aecb023f6" />
+
 
 ### A.3 Backdoor Account Lifecycle
 
