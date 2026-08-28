@@ -97,7 +97,6 @@ All 6 custom rules are located in [`detections/wazuh/local_rules.xml`](detection
 
 ## 📁 Repository Structure
 
-```text
 SOCForge/
 ├── README.md                           # Master repository documentation
 ├── LICENSE                             # MIT License
