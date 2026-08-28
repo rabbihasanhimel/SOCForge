@@ -93,7 +93,7 @@ All 6 custom rules are located in [`detections/wazuh/local_rules.xml`](detection
 | **`100104`** | Scheduled Task Persistence | `T1053.005` | [`detections/windows/scheduled-task-persistence.md`](detections/windows/scheduled-task-persistence.md) |
 | **`100105`** | Backdoor User & Privilege Escalation | `T1136.001` / `T1098` | [`detections/windows/account-manipulation.md`](detections/windows/account-manipulation.md) |
 
----
+
 ```text
 ## 📁 Repository Structure
 
