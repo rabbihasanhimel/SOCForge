@@ -52,30 +52,8 @@ The custom **SOCForge Security Operations Dashboard** provides single-pane-of-gl
 
 ## 🏗️ Architecture & Network Topology
 
-```text
-┌───────────────────────────────────────────────────────────────────────────────────┐
-│                           SOCFORGE LAB ARCHITECTURE                               │
-├───────────────────────────────────────────────────────────────────────────────────┤
-│                                                                                   │
-│    🐉 ATTACKER (Kali Linux)                                                       │
-│       IP: 192.168.56.101                                                          │
-│       Services: Python HTTP Stager (Port 8080), Nmap Reconnaissance               │
-│                                                                                   │
-│                             │  [Host-Only Subnet: 192.168.56.0/24]                │
-│                             ▼                                                     │
-│    🪟 TARGET ENDPOINT (Windows 11)                                                │
-│       Hostname: OniNaruto | IP: 192.168.56.105                                    │
-│       Sensors: Microsoft Sysmon v15.21 (Schema 4.90) + Wazuh Agent v4.14.7        │
-│       Telemetry: ProcessCreate (1), NetConnect (3), ImageLoad (7), FileCreate (11)│
-│                                                                                   │
-│                             │  [Wazuh Agent Protocol / Port 1514]                 │
-│                             ▼                                                     │
-│    🛡️ SIEM & ANALYSIS (Ubuntu Server 24.04)                                       │
-│       Hostname: socforgewazuh | IP: 192.168.56.104                                │
-│       Stack: Wazuh Manager, OpenSearch Indexer, Wazuh Dashboard                   │
-│       Engine: Analysisd Rule Engine + Custom SOCForge Detection Rules             │
-│                                                                                   │
-└───────────────────────────────────────────────────────────────────────────────────┘
+<img width="1277" height="552" alt="image" src="https://github.com/user-attachments/assets/f94b0436-b28e-46bc-bebf-3f86b4e78017" />
+
 ```
 *See [`architecture/architecture.md`](architecture/architecture.md) for full topology details.*
 
