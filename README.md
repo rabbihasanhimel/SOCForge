@@ -56,7 +56,7 @@ The custom **SOCForge Security Operations Dashboard** provides single-pane-of-gl
 
 *See [`architecture/architecture.md`](architecture/architecture.md) for full topology details.*
 
-```
+
 
 ---
 
