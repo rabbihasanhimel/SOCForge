@@ -16,20 +16,9 @@
 It demonstrates the complete lifecycle of modern security operations: from external adversary reconnaissance and HTTP C2 ingress staging, through privilege escalation and persistence, to real-time SIEM detection rule authoring, hypothesis-driven threat hunting, and verified forensic eradication.
 
 ```text
-                  ┌───────────────────────────────────────────────┐
-                  │                 SOCFORGE LAB                  │
-                  └───────────────────────┬───────────────────────┘
-                                          │
-                  ┌───────────────────────┴───────────────────────┐
-                  ▼                                               ▼
-     ⚔️ ATTACK SIMULATION                           🛡️ DEFENSE & DETECTION
-   • Kali Linux (192.168.56.101)                 • Wazuh Manager v4.14.7 (192.168.56.104)
-   • Nmap Port Reconnaissance                     • Microsoft Sysmon v15.21 (Schema 4.90)
-   • Python HTTP C2 Staging Server                • 6 Custom Detection Rules (100100-100105)
-   • Obfuscated PowerShell & Execution Bypass     • Real-time EventChannel Ingestion
-   • Scheduled Task Persistence                   • Hypothesis-Driven Threat Hunting
-   • Admin Backdoor Account Creation              • Forensic Eradication & Verification
+
 ```
+<img width="1276" height="378" alt="image" src="https://github.com/user-attachments/assets/43593d01-48a5-4546-be5d-2488754104a6" />
 
 ---
 
