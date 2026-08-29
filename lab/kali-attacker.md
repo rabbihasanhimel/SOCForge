@@ -2,6 +2,8 @@
 
 This guide details the adversary node configuration and attack tooling on Kali Linux (`kali`).
 
+<img width="500" height="250" alt="image" src="https://github.com/user-attachments/assets/e434a240-0774-444e-94ed-4cc92739a210" />
+
 ---
 
 ## 1. Specifications
