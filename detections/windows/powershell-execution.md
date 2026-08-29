@@ -6,6 +6,9 @@
 - **Data Source:** Microsoft Sysmon (Event ID 1: Process Creation)
 - **Platform:** Windows
 
+
+<img width="720" height="300" alt="image" src="https://github.com/user-attachments/assets/49397cfa-8f04-47c1-9a24-6f76a728e704" />
+
 ---
 
 ## 1. Detection Objective
