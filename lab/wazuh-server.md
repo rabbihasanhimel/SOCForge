@@ -46,3 +46,6 @@ To test an event against the live rule engine:
 ```bash
 sudo /var/ossec/bin/wazuh-logtest
 ```
+
+## 4. Creating Backup for future use
+<img width="600" height="200" alt="image" src="https://github.com/user-attachments/assets/8c426aea-a14a-4920-99ec-251109b14e46" />
