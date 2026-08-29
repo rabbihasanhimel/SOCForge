@@ -3,6 +3,7 @@
 This document details the virtual security operations center (SOC) architecture, isolated subnet topology, host specifications, and the end-to-end security telemetry pipeline.
 
 ---
+<img width="600" height="300" alt="image" src="https://github.com/user-attachments/assets/43b50633-68e7-4a0d-8d01-3b17476407ec" />
 
 ## 1. Network Topology Diagram
 
