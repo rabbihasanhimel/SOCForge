@@ -25,6 +25,7 @@ This document outlines the VirtualBox network configuration and host-only adapte
 ```
 
 ---
+<img width="620" height="250" alt="image" src="https://github.com/user-attachments/assets/0e483e50-83d8-4f6f-a97b-1ab555f0d09c" />
 
 ## 3. Network Verification Tests
 
