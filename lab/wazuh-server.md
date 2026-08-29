@@ -33,6 +33,7 @@ To preserve all raw endpoint telemetry (even non-alerting events) in `archives.j
 - `TCP 443` — Wazuh Dashboard Web Interface
 
 ---
+<img width="750" height="400" alt="image" src="https://github.com/user-attachments/assets/fd7b715f-b38b-4320-a950-af60ecc46819" />
 
 ## 3. Custom Rule Deployment
 Custom detection rules are managed in `/var/ossec/etc/rules/local_rules.xml`.
