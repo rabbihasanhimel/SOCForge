@@ -6,36 +6,8 @@ This document details the virtual security operations center (SOC) architecture,
 <img width="600" height="300" alt="image" src="https://github.com/user-attachments/assets/43b50633-68e7-4a0d-8d01-3b17476407ec" />
 
 ## 1. Network Topology Diagram
-
-
-
 <img width="600" height="400" alt="image" src="https://github.com/user-attachments/assets/1eb464d4-8ff2-45f3-80a5-409b596330a8" />
 
-┌───────────────────────────────────────────────────────────────────────────────────┐
-│                           SOCFORGE LAB ARCHITECTURE                               │
-├───────────────────────────────────────────────────────────────────────────────────┤
-│                                                                                   │
-│    🐉 ATTACKER (Kali Linux)                                                       │
-│       Hostname: kali | IP: 192.168.56.101                                         │
-│       Interfaces: eth0 (Host-Only: 192.168.56.101), eth1 (NAT: Internet)          │
-│       Roles: Nmap Reconnaissance, Python HTTP C2 Staging Server (Port 8080)       │
-│                                                                                   │
-│                             │  [Isolated Host-Only Subnet: 192.168.56.0/24]       │
-│                             ▼                                                     │
-│    🪟 TARGET ENDPOINT (Windows 11 Enterprise)                                     │
-│       Hostname: OniNaruto | IP: 192.168.56.105 (Host-Only), 10.0.3.15 (NAT)       │
-│       Sensors: Microsoft Sysmon v15.21 (Schema 4.90) + Wazuh Agent v4.14.7        │
-│       Telemetry: ProcessCreate (1), NetConnect (3), ImageLoad (7), FileCreate (11)│
-│                                                                                   │
-│                             │  [Wazuh Agent Protocol / TCP Port 1514]             │
-│                             ▼                                                     │
-│    🛡️ SIEM & ANALYSIS (Ubuntu Server 24.04 LTS)                                   │
-│       Hostname: socforgewazuh | IP: 192.168.56.104 (Host-Only)                    │
-│       Stack: Wazuh Manager v4.14.7, OpenSearch Indexer, Wazuh Dashboard (Port 443)│
-│       Engine: Analysisd Real-time Rule Engine + Custom SOCForge Detection Rules   │
-│                                                                                   │
-└───────────────────────────────────────────────────────────────────────────────────┘
-```
 
 ---
 
