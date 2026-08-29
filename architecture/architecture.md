@@ -23,28 +23,5 @@ This document details the virtual security operations center (SOC) architecture,
 
 ## 3. Security Telemetry Pipeline
 
-```text
-┌───────────────────────────┐
-│ Windows 11 Target System  │
-│ (Process / Network / File)│
-└─────────────┬─────────────┘
-              │
-              ▼
-┌───────────────────────────┐
-│ Microsoft Sysmon (v15.21) │  Logs events to Microsoft-Windows-Sysmon/Operational
-└─────────────┬─────────────┘
-              │
-              ▼
-┌───────────────────────────┐
-│  Wazuh Agent (EventChannel│  Forwards telemetry securely over TCP 1514
-└─────────────┬─────────────┘
-              │
-              ▼
-┌───────────────────────────┐
-│ Wazuh Manager (Analysisd) │  Matches events against pre-compiled decoders & custom rules
-└─────────────┬─────────────┘
-              │
-              ├──► /var/ossec/logs/archives/archives.json (Raw telemetry for threat hunting)
-              ├──► /var/ossec/logs/alerts/alerts.json     (Triggered detection alerts)
-              └──► OpenSearch Indexer → Wazuh Dashboard   (Visual dashboards & analytics)
-```
+<img width="675" height="407" alt="image" src="https://github.com/user-attachments/assets/22a71c05-5a4e-4d85-a44c-ea39e03ad1d6" />
+
