@@ -2,9 +2,6 @@
 
 This document outlines the VirtualBox network configuration and host-only adapter settings.
 
-
-<img width="500" height="250" alt="image" src="https://github.com/user-attachments/assets/f4fa8e4a-0dcc-4ae0-a246-4cec8f86880b" />
-
 ---
 
 ## 1. Subnet Architecture
