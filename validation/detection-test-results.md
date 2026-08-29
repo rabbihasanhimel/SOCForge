@@ -2,6 +2,9 @@
 
 This document tracks unit testing (`wazuh-logtest`) and live endpoint validation for all 6 custom SOCForge detection rules.
 
+
+<img width="600" height="250" alt="image" src="https://github.com/user-attachments/assets/efdbd687-6505-44de-8f53-018c9ae5bdcd" />
+
 ---
 
 ## 1. Detection Engineering Validation Summary
@@ -16,6 +19,8 @@ This document tracks unit testing (`wazuh-logtest`) and live endpoint validation
 | **`100105`** | Local Account / Privilege Escalation | `T1136.001` / `T1098` | Level 10 | ✅ PASSED | ✅ PASSED | **Validated** |
 
 ---
+
+<img width="500" height="250" alt="image" src="https://github.com/user-attachments/assets/906ab9fa-34fe-4f37-8c8f-4f39176a9e0f" />
 
 ## 2. Metric Summary
 
