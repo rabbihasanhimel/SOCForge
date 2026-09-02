@@ -33,6 +33,7 @@ To preserve all raw endpoint telemetry (even non-alerting events) in `archives.j
 - `TCP 443` — Wazuh Dashboard Web Interface
 
 ---
+<img width="750" height="400" alt="image" src="https://github.com/user-attachments/assets/fd7b715f-b38b-4320-a950-af60ecc46819" />
 
 ## 3. Custom Rule Deployment
 Custom detection rules are managed in `/var/ossec/etc/rules/local_rules.xml`.
@@ -46,3 +47,6 @@ To test an event against the live rule engine:
 ```bash
 sudo /var/ossec/bin/wazuh-logtest
 ```
+
+## 4. Creating Backup for future use
+<img width="600" height="200" alt="image" src="https://github.com/user-attachments/assets/8c426aea-a14a-4920-99ec-251109b14e46" />
