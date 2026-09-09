@@ -1,0 +1,30 @@
+﻿title: Ingress Tool Transfer via Curl or Wget
+id: c5813de7-1002-42bc-d345-socforge100203
+status: test
+description: Detects command execution invoking curl or wget targeting remote staging servers or non-standard ports to download external tools.
+references:
+  - https://attack.mitre.org/techniques/T1105/
+  - https://attack.mitre.org/techniques/T1071/001/
+author: SOCForge Detection Engineering Team
+date: 2026-09-14
+tags:
+  - attack.command_and_control
+  - attack.t1105
+  - attack.t1071.001
+logsource:
+  category: process_creation
+  product: linux
+detection:
+  selection_binary:
+    Image|endswith:
+      - '/curl'
+      - '/wget'
+  selection_traffic:
+    CommandLine|contains:
+      - 'http://'
+      - 'https://'
+      - ':8080'
+  condition: selection_binary and selection_traffic
+falsepositives:
+  - Software update downloads and authorized curl script installation
+level: medium

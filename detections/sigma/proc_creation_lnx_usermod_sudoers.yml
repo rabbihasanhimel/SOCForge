@@ -1,0 +1,30 @@
+﻿title: Account Added to Privileged Sudoers Group
+id: a3691bc5-1002-40fa-b123-socforge100201
+status: test
+description: Detects the elevation of user accounts to the privileged sudo or wheel groups via usermod or gpasswd, granting root administrative access.
+references:
+  - https://attack.mitre.org/techniques/T1098/
+  - https://attack.mitre.org/techniques/T1548/003/
+author: SOCForge Detection Engineering Team
+date: 2026-09-14
+tags:
+  - attack.persistence
+  - attack.t1098
+  - attack.privilege_escalation
+  - attack.t1548.003
+logsource:
+  category: process_creation
+  product: linux
+detection:
+  selection_img:
+    Image|endswith:
+      - '/usermod'
+      - '/gpasswd'
+  selection_flags:
+    CommandLine|contains:
+      - 'sudo'
+      - 'wheel'
+  condition: selection_img and selection_flags
+falsepositives:
+  - Authorized privilege provisioning by system administrators
+level: high

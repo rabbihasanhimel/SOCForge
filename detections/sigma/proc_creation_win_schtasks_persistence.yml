@@ -1,0 +1,29 @@
+﻿title: Persistence via Scheduled Task Creation
+id: d0358e92-1001-47cd-8ef1-socforge100104
+status: test
+description: Detects the creation of scheduled tasks using schtasks.exe, which is commonly leveraged by attackers to establish reboot persistence.
+references:
+  - https://attack.mitre.org/techniques/T1053/005/
+author: SOCForge Detection Engineering Team
+date: 2026-08-28
+tags:
+  - attack.persistence
+  - attack.t1053.005
+  - attack.execution
+logsource:
+  category: process_creation
+  product: windows
+detection:
+  selection_img:
+    Image|endswith:
+      - '\schtasks.exe'
+  selection_flags:
+    CommandLine|contains:
+      - '/create'
+      - '/Create'
+      - '-create'
+      - '-Create'
+  condition: selection_img and selection_flags
+falsepositives:
+  - Legitimate administrative software installation and scheduled maintenance routines
+level: high

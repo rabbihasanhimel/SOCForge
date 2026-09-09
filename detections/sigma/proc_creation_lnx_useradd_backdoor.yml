@@ -1,0 +1,28 @@
+﻿title: Rogue Local User Account Creation via Useradd
+id: f2580ab4-1002-49ef-a012-socforge100200
+status: test
+description: Detects the creation of rogue local user accounts using useradd on Linux systems, commonly used by adversaries for persistence.
+references:
+  - https://attack.mitre.org/techniques/T1136/001/
+author: SOCForge Detection Engineering Team
+date: 2026-09-14
+tags:
+  - attack.persistence
+  - attack.t1136.001
+logsource:
+  category: process_creation
+  product: linux
+detection:
+  selection_img:
+    Image|endswith:
+      - '/useradd'
+      - '/adduser'
+  selection_flags:
+    CommandLine|contains:
+      - 'socforge_backdoor'
+      - '-m'
+      - '-s /bin/bash'
+  condition: selection_img and selection_flags
+falsepositives:
+  - Legitimate local administrator provisioning
+level: high

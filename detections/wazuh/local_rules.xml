@@ -77,4 +77,52 @@
     <group>socforge,privilege_escalation,persistence,account_manipulation,process_creation,</group>
   </rule>
 
+  <!-- ==================== LINUX DETECTIONS (100200 - 100203) ==================== -->
+
+  <!-- SOCForge Linux #1: Rogue Account Creation via useradd (T1136.001) -->
+  <rule id="100200" level="10">
+    <if_sid>5402, 5403</if_sid>
+    <field name="command" type="pcre2">(?i)useradd.*(socforge_backdoor|-m|-s)</field>
+    <description>SOCForge: Rogue local account creation detected via useradd</description>
+    <mitre>
+      <id>T1136.001</id>
+    </mitre>
+    <group>socforge,account_manipulation,privilege_escalation,linux,</group>
+  </rule>
+
+  <!-- SOCForge Linux #2: Privilege Escalation via Sudo Group Manipulation (T1098) -->
+  <rule id="100201" level="10">
+    <if_sid>5402, 5403</if_sid>
+    <field name="command" type="pcre2">(?i)(usermod.*sudo|gpasswd.*sudo)</field>
+    <description>SOCForge: Account added to privileged sudo group detected</description>
+    <mitre>
+      <id>T1098</id>
+      <id>T1548.003</id>
+    </mitre>
+    <group>socforge,privilege_escalation,account_manipulation,linux,</group>
+  </rule>
+
+  <!-- SOCForge Linux #3: Persistence via Scheduled Cron Job Creation (T1053.003) -->
+  <rule id="100202" level="10">
+    <if_sid>5402, 5403</if_sid>
+    <field name="command" type="pcre2">(?i)(tee|chmod|touch|cp|mv).*/etc/cron</field>
+    <description>SOCForge: Persistence established via scheduled Cron job creation</description>
+    <mitre>
+      <id>T1053.003</id>
+    </mitre>
+    <group>socforge,persistence,cron,linux,</group>
+  </rule>
+
+  <!-- SOCForge Linux #4: Ingress Tool Transfer / Staging via Curl or Wget (T1105) -->
+  <rule id="100203" level="8">
+    <regex type="pcre2">(?i)(curl|wget).*(http|8080)</regex>
+    <description>SOCForge: Ingress tool transfer or external script staging detected</description>
+    <mitre>
+      <id>T1105</id>
+      <id>T1071.001</id>
+    </mitre>
+    <group>socforge,c2,ingress_transfer,linux,</group>
+  </rule>
+
 </group>
+

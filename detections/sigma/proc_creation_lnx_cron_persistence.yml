@@ -1,0 +1,24 @@
+﻿title: Persistence via Scheduled Cron Job Creation
+id: b4702cd6-1002-41ab-c234-socforge100202
+status: test
+description: Detects the creation or modification of scheduled cron jobs in /etc/cron* directories, frequently abused for persistent execution.
+references:
+  - https://attack.mitre.org/techniques/T1053/003/
+author: SOCForge Detection Engineering Team
+date: 2026-09-14
+tags:
+  - attack.persistence
+  - attack.t1053.003
+  - attack.execution
+logsource:
+  category: process_creation
+  product: linux
+detection:
+  selection:
+    CommandLine|contains:
+      - '/etc/cron'
+      - 'crontab'
+  condition: selection
+falsepositives:
+  - Legitimate system scheduled maintenance packages
+level: high
