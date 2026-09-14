@@ -79,6 +79,8 @@ To resolve this, 4 custom Wazuh rules and 4 matching Sigma rules were developed:
 * **Rule `100203` (Level 8):** Detects ingress payload retrieval targeting adversary staging ports.
 
 ![Wazuh Raw Telemetry Sudo and Backdoor](../../screenshots/detections/04_wazuh_linux_raw_alerts_sudo_backdoor.png)
+
+
 *Figure 2: Wazuh Manager capturing raw telemetry for `sudo whoami`, `useradd`, `chpasswd`, and `tee /etc/cron.d/` executions.*
 
 ---
