@@ -59,7 +59,8 @@ ls -la /etc/cron.d/socforge_persistence
 
 ## 4. Remediation Telemetry Proof
 
-![Linux Eradication Proof](../../screenshots/incident-response/06_linux_eradication_backdoor_and_cron.png)
+<img width="1264" height="874" alt="image" src="https://github.com/user-attachments/assets/8b7f8f23-301b-4ec5-ad85-1e788c639898" />
+
 
 *Figure 1: Terminal verification demonstrating process termination, persistence cron removal, and user account purge.*
 
