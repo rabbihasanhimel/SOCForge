@@ -51,6 +51,8 @@ Detection engineering efforts elevated generic Level 3 sudo noise into dedicated
 
 ### Forensic Evidence: Discovery & Privilege Enumeration
 ![Linux System and Privilege Discovery](../../screenshots/investigations/03_linux_discovery_enumeration_cli.png)
+
+
 *Figure 1: Attacker enumerating system identity (`id`, `uname -a`), user accounts, and checking sudo privileges on the compromised host.*
 
 ---
