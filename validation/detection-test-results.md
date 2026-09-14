@@ -2,6 +2,9 @@
 
 This document tracks unit testing (`wazuh-logtest`) and live endpoint validation for all 6 custom SOCForge detection rules.
 
+
+<img width="600" height="250" alt="image" src="https://github.com/user-attachments/assets/efdbd687-6505-44de-8f53-018c9ae5bdcd" />
+
 ---
 
 ## 1. Detection Engineering Validation Summary
@@ -14,17 +17,24 @@ This document tracks unit testing (`wazuh-logtest`) and live endpoint validation
 | **`100103`** | Suspicious Outbound Connection | `T1071.001` | Level 9 | ✅ PASSED | ✅ PASSED | **Validated** |
 | **`100104`** | Scheduled Task Persistence | `T1053.005` | Level 10 | ✅ PASSED | ✅ PASSED | **Validated** |
 | **`100105`** | Local Account / Privilege Escalation | `T1136.001` / `T1098` | Level 10 | ✅ PASSED | ✅ PASSED | **Validated** |
+| **`100200`** | Linux Rogue User Account Creation | `T1136.001` | Level 10 | ✅ PASSED | ✅ PASSED | **Validated** |
+| **`100201`** | Linux Sudoers Group Escalation | `T1098` / `T1548.003` | Level 10 | ✅ PASSED | ✅ PASSED | **Validated** |
+| **`100202`** | Linux Scheduled Cron Persistence | `T1053.003` | Level 10 | ✅ PASSED | ✅ PASSED | **Validated** |
+| **`100203`** | Linux Ingress Tool Transfer | `T1105` / `T1071.001` | Level 8 | ✅ PASSED | ✅ PASSED | **Validated** |
 
 ---
+
+<img width="500" height="250" alt="image" src="https://github.com/user-attachments/assets/906ab9fa-34fe-4f37-8c8f-4f39176a9e0f" />
 
 ## 2. Metric Summary
 
 ```text
-Total Custom Detections Engineered: 6
-Validated Against Live Attacks:     6 (100%)
-Unit Test Coverage:                 6 (100%)
-False Positive Rate Observed:       0% during active attack window
+Total Custom Detections Engineered: 10 (6 Windows + 4 Linux)
+Validated Against Live Attacks:     10 / 10 (100%)
+Unit Test Coverage:                 10 / 10 (100%)
+False Positive Rate Observed:       0% during active attack windows
 ```
+
 
 ---
 

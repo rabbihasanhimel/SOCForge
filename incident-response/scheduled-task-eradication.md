@@ -20,6 +20,7 @@ schtasks.exe /delete /tn "SOCForgePersistence" /f
 ```
 
 ---
+<img width="929" height="358" alt="image" src="https://github.com/user-attachments/assets/dea34abb-3cf9-4808-b298-1f7ec4cffb67" />
 
 ## 3. Forensic Verification
 Check Sysmon Event ID 12 in `archives.json`:

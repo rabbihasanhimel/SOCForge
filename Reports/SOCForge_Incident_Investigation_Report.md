@@ -33,8 +33,31 @@ All stages of the intrusion and subsequent remediation were captured through end
 
 ## 2. Lab Architecture & Telemetry Pipeline
 
-
-<img width="818" height="371" alt="image" src="https://github.com/user-attachments/assets/2758ea9e-449e-4256-975d-7b43bd150d25" />
+```text
+┌───────────────────────────────────────────────────────────────────────────────────┐
+│                           SOCFORGE LAB ARCHITECTURE                               │
+├───────────────────────────────────────────────────────────────────────────────────┤
+│                                                                                   │
+│    🐉 ATTACKER (Kali Linux)                                                       │
+│       IP: 192.168.56.101                                                          │
+│       Services: Python HTTP Stager (Port 8080), Nmap Reconnaissance               │
+│                                                                                   │
+│                             │  [Host-Only Subnet: 192.168.56.0/24]                │
+│                             ▼                                                     │
+│    🪟 TARGET ENDPOINT (Windows 11)                                                │
+│       Hostname: OniNaruto | IP: 192.168.56.105                                    │
+│       Sensors: Microsoft Sysmon v15.21 (Schema 4.90) + Wazuh Agent v4.14.7        │
+│       Telemetry: ProcessCreate (1), NetConnect (3), ImageLoad (7), FileCreate (11)│
+│                                                                                   │
+│                             │  [Wazuh Agent Protocol / Port 1514]                 │
+│                             ▼                                                     │
+│    🛡️ SIEM & ANALYSIS (Ubuntu Server)                                             │
+│       Hostname: socforgewazuh | IP: 192.168.56.104                                │
+│       Stack: Wazuh Manager, OpenSearch, Wazuh Dashboard                           │
+│       Engine: Analysisd Rule Engine + Custom SOCForge Detection Rules             │
+│                                                                                   │
+└───────────────────────────────────────────────────────────────────────────────────┘
+```
 
 ---
 
@@ -42,9 +65,16 @@ All stages of the intrusion and subsequent remediation were captured through end
 
 The attack chain mapped comprehensively across **6 Tactics** and **10 Techniques**:
 
-<img width="819" height="175" alt="image" src="https://github.com/user-attachments/assets/6d61c294-e306-41d4-9098-aa844fcfd295" />
-
-
+```text
+┌──────────────┐     ┌──────────────┐     ┌──────────────┐     ┌──────────────┐     ┌──────────────┐     ┌──────────────┐
+│    RECON     │ ──► │  C2 INGRESS  │ ──► │  EXECUTION   │ ──► │DISCOVERY / EV│ ──► │ PERSISTENCE  │ ──► │  PRIV ESC    │
+├──────────────┤     ├──────────────┤     ├──────────────┤     ├──────────────┤     ├──────────────┤     ├──────────────┤
+│    T1046     │     │  T1071.001   │     │  T1059.001   │     │    T1027     │     │  T1053.005   │     │  T1136.001   │
+│ Network Port │     │ Web Protocol │     │  PowerShell  │     │ Obfuscation  │     │Scheduled Task│     │Local Account │
+│   Scanning   │     │  T1105 Tool  │     │  T1059.003   │     │    T1087     │     │  T1098 Acct  │     │Modification  │
+│              │     │   Transfer   │     │ Command Line │     │   Account    │     │ Manipulation │     │              │
+└──────────────┘     └──────────────┘     └──────────────┘     └──────────────┘     └──────────────┘     └──────────────┘
+```
 
 | MITRE Tactic | Technique ID | Technique Name | Artifact / Command | Detection / Rule ID |
 |:---|:---|:---|:---|:---|
@@ -238,8 +268,6 @@ Six custom detection rules were authored, unit-tested with `wazuh-logtest`, and 
 
 ---
 
-
-
 ## 8. Eradication & Containment Evidence
 
 Following the attack simulation, incident response procedures were executed to contain and eradicate all adversary artifacts. **All cleanup actions were captured by Sysmon and logged in Wazuh `archives.json`**, providing forensic proof of successful remediation.
@@ -256,9 +284,6 @@ The malicious persistence mechanism was removed using `schtasks.exe /delete`:
 | `2026-08-26 20:17:12.782` | **5** (Process Terminate) | `schtasks.exe` (PID 7016) terminated | Successful cleanup confirmed |
 
 **SHA256 (schtasks.exe):** `DDDE64F0F55751763C1BCD53DE9CDFFC0D725D45A8476464A2A0422661813004`
-
-
-<img width="1185" height="605" alt="image" src="https://github.com/user-attachments/assets/42f4e0cb-9855-4430-a61a-ad69e41f65be" />
 
 ### 8.2 Backdoor Account Deletion (`socforge_backdoor`)
 
@@ -283,7 +308,6 @@ The unauthorized administrator account was removed using `net.exe user /delete`:
    └── [PID: 6980] net.exe user socforge_backdoor /delete
           └── [PID: 6336] net1.exe user socforge_backdoor /delete ✅
 ```
-<img width="1164" height="601" alt="image" src="https://github.com/user-attachments/assets/a7aadfa3-09d6-4e70-8436-c5bb79fd9201" />
 
 ### 8.4 Eradication Verification Summary
 
@@ -293,10 +317,6 @@ The unauthorized administrator account was removed using `net.exe user /delete`:
 | Backdoor User `socforge_backdoor` | `net user socforge_backdoor /delete` | Sysmon EID 1, 5, 11 + Rule 92039 | ✅ Removed |
 | Stager Payload `payload.ps1` | `Remove-Item C:\Windows\Temp\payload.ps1` | Manual cleanup | ✅ Removed |
 | C2 Infrastructure `192.168.56.101:8080` | Kali HTTP server terminated | Network isolation | ✅ Neutralized |
-
-
-<img width="1358" height="616" alt="image" src="https://github.com/user-attachments/assets/15808e12-3da1-471b-8b99-189e0bfef4e3" />
-
 
 > **Forensic Note:** All eradication commands were executed from the same PowerShell session (Parent PID 572) used during the attack simulation, and were fully captured in Wazuh `archives.json` with matching Sysmon telemetry — proving the complete incident lifecycle (attack → detection → response → eradication) was observed end-to-end by the SIEM.
 
@@ -364,9 +384,6 @@ sudo grep -Ei 'SOCForgePersistence|schtasks\.exe' \
 ```
 
 **Result:** Captured `schtasks /create`, `schtasks /delete`, `schtasks /query`, plus Sysmon EID 7 (`taskschd.dll` load), EID 12 (`DeleteKey` on `TaskCache\Tree\SOCForgePersistence`), and EID 5 (process termination).
-
-<img width="1363" height="610" alt="image" src="https://github.com/user-attachments/assets/2e8645f1-e123-45e0-b653-7e1aecb023f6" />
-
 
 ### A.3 Backdoor Account Lifecycle
 
